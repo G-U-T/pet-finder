@@ -8,7 +8,7 @@
 const express = require('express');
 const data = require('./data');
 
-const PORT = 7777;
+const PORT = 3345;
 const app = express();
 app.listen(PORT, () => {
 	console.log(`Port ${PORT}`);
@@ -16,4 +16,18 @@ app.listen(PORT, () => {
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/api/v1/pets', (req, res) => {
+	res.send(data);
+});
+
+app.get('/api/v1/pets/:name', (req, res) => {
+	let petFromName;
+	data.forEach((pet) => {
+		if (pet.name === req.params.name) petFromName = pet;
+	});
+	res.send(
+		petFromName
+	);
 });
